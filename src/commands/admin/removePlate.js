@@ -37,7 +37,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "ทะเบียน",
-      embeds.adminActionEmbed("🗑️ ลบป้ายทะเบียน", `แอดมิน ${interaction.user.tag} ลบป้ายทะเบียนออกจากระบบ`, [
+      embeds.adminActionEmbed("🗑️ ลบป้ายทะเบียน", `แอดมิน <@${interaction.user.id}> ลบป้ายทะเบียนออกจากระบบ`, [
         { name: "เลขทะเบียน", value: plateNumber, inline: true },
         { name: "เจ้าของ/ผู้ขับ", value: existing.ownerName, inline: true },
       ])

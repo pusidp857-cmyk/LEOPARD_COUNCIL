@@ -397,7 +397,7 @@ async function handleSelectClearDuty(interaction) {
   }
 
   const embed = embeds.adminActionEmbed("🧹 ล้างสถานะเข้าเวร", `ล้างสถานะเข้าเวรของ ${target?.tag || targetId} เรียบร้อย`, [
-    { name: "ดำเนินการโดย", value: interaction.user.tag },
+    { name: "ดำเนินการโดย", value: `<@${interaction.user.id}>` },
   ]);
 
   await interaction.editReply({ content: null, embeds: [embed], components: [] });
@@ -512,7 +512,7 @@ async function handleSelectRegPosition(interaction) {
     components: [],
   });
 
-  await sendLog(interaction.client, "สมัคร", embeds.registerEmbed({ ...data, addedBy: interaction.user.tag }));
+  await sendLog(interaction.client, "สมัคร", embeds.registerEmbed({ ...data, addedBy: `<@${interaction.user.id}>` }));
 
   if (roleResult && !roleResult.ok) {
     await sendLog(
@@ -602,7 +602,7 @@ async function handleSelectSetPosition(interaction) {
   await sendLog(
     interaction.client,
     "แอดมิน",
-    embeds.adminActionEmbed("🎖️ เปลี่ยนตำแหน่ง", `แอดมิน ${interaction.user.tag} เปลี่ยนตำแหน่งสมาชิก`, logFields)
+    embeds.adminActionEmbed("🎖️ เปลี่ยนตำแหน่ง", `แอดมิน <@${interaction.user.id}> เปลี่ยนตำแหน่งสมาชิก`, logFields)
   );
 
   if (roleResult && !roleResult.ok) {
@@ -690,7 +690,7 @@ async function handleModalAddHours(interaction, targetId) {
 
   const embed = embeds.adminActionEmbed("➕ เพิ่มชั่วโมงเวร", `เพิ่ม ${amount} ชั่วโมงให้ ${target.tag}`, [
     { name: "เหตุผล", value: reason || "-", inline: true },
-    { name: "ดำเนินการโดย", value: interaction.user.tag, inline: true },
+    { name: "ดำเนินการโดย", value: `<@${interaction.user.id}>`, inline: true },
   ]);
 
   await interaction.editReply({ embeds: [embed] });
@@ -721,7 +721,7 @@ async function handleModalSubHours(interaction, targetId) {
 
   const embed = embeds.adminActionEmbed("➖ ลดชั่วโมงเวร", `ลด ${amount} ชั่วโมงจาก ${target.tag}`, [
     { name: "เหตุผล", value: reason || "-", inline: true },
-    { name: "ดำเนินการโดย", value: interaction.user.tag, inline: true },
+    { name: "ดำเนินการโดย", value: `<@${interaction.user.id}>`, inline: true },
   ]);
 
   await interaction.editReply({ embeds: [embed] });
@@ -771,7 +771,7 @@ async function handleModalEditTime(interaction, targetId) {
   const embed = embeds.adminActionEmbed("✏️ แก้ไขเวลาเวร", `แก้ไขรายการเวรของ ${target.tag} วันที่ ${dateStr}`, [
     { name: "เวลาเข้าใหม่", value: time.displayDateTime(newCheckIn), inline: true },
     { name: "เวลาออกใหม่", value: newCheckOut ? time.displayDateTime(newCheckOut) : "ไม่เปลี่ยนแปลง", inline: true },
-    { name: "ดำเนินการโดย", value: interaction.user.tag },
+    { name: "ดำเนินการโดย", value: `<@${interaction.user.id}>` },
   ]);
 
   await interaction.editReply({ embeds: [embed] });
@@ -855,7 +855,7 @@ async function handleModalSetName(interaction, targetId) {
   await sendLog(
     interaction.client,
     "แอดมิน",
-    embeds.adminActionEmbed("✏️ เปลี่ยนชื่อ", `แอดมิน ${interaction.user.tag} เปลี่ยนชื่อสมาชิก`, logFields)
+    embeds.adminActionEmbed("✏️ เปลี่ยนชื่อ", `แอดมิน <@${interaction.user.id}> เปลี่ยนชื่อสมาชิก`, logFields)
   );
 
   if (nicknameResult && !nicknameResult.ok) {
@@ -901,7 +901,7 @@ async function handleRemoveMemberConfirm(interaction, discordId) {
   await sendLog(
     interaction.client,
     "แอดมิน",
-    embeds.adminActionEmbed("🗑️ ลบสมาชิก", `แอดมิน ${interaction.user.tag} ลบสมาชิกออกจากระบบ`, [
+    embeds.adminActionEmbed("🗑️ ลบสมาชิก", `แอดมิน <@${interaction.user.id}> ลบสมาชิกออกจากระบบ`, [
       { name: "สมาชิก", value: `${existing.gameName} (${existing.discordId})`, inline: true },
       { name: "ตำแหน่งเดิม", value: existing.position || "-", inline: true },
     ])

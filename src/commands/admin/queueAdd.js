@@ -39,7 +39,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "คิว",
-      embeds.adminActionEmbed("➕ เพิ่มเข้าคิวแพทย์", `แอดมิน ${interaction.user.tag} เพิ่ม <@${target.id}> (${name}) เข้าคิวแพทย์`)
+      embeds.adminActionEmbed("➕ เพิ่มเข้าคิวแพทย์", `แอดมิน <@${interaction.user.id}> เพิ่ม <@${target.id}> (${name}) เข้าคิวแพทย์`)
     );
   },
 };

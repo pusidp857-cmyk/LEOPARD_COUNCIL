@@ -31,7 +31,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "คิว",
-      embeds.adminActionEmbed("📣 เรียกคิวถัดไป", `แอดมิน ${interaction.user.tag} เรียก <@${result.discordId}> (${result.name}) ให้รับเคส`)
+      embeds.adminActionEmbed("📣 เรียกคิวถัดไป", `แอดมิน <@${interaction.user.id}> เรียก <@${result.discordId}> (${result.name}) ให้รับเคส`)
     );
   },
 };

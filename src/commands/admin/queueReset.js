@@ -28,7 +28,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "คิว",
-      embeds.adminActionEmbed("🧹 รีเซ็ตคิวแพทย์", `แอดมิน ${interaction.user.tag} รีเซ็ตคิวแพทย์ทั้งหมด`)
+      embeds.adminActionEmbed("🧹 รีเซ็ตคิวแพทย์", `แอดมิน <@${interaction.user.id}> รีเซ็ตคิวแพทย์ทั้งหมด`)
     );
   },
 };

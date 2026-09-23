@@ -106,7 +106,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "แอดมิน",
-      embeds.adminActionEmbed("🎖️ เปลี่ยนตำแหน่ง", `แอดมิน ${interaction.user.tag} เปลี่ยนตำแหน่งสมาชิก`, logFields)
+      embeds.adminActionEmbed("🎖️ เปลี่ยนตำแหน่ง", `แอดมิน <@${interaction.user.id}> เปลี่ยนตำแหน่งสมาชิก`, logFields)
     );
 
     if (roleResult && !roleResult.ok) {

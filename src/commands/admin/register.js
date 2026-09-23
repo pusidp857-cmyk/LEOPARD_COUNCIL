@@ -134,7 +134,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "สมัคร",
-      embeds.registerEmbed({ ...data, addedBy: interaction.user.tag })
+      embeds.registerEmbed({ ...data, addedBy: `<@${interaction.user.id}>` })
     );
 
     if (roleResult && !roleResult.ok) {

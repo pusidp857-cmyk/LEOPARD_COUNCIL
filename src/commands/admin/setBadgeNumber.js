@@ -91,7 +91,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "แอดมิน",
-      embeds.adminActionEmbed("🔢 เปลี่ยนเลขนำหน้า", `แอดมิน ${interaction.user.tag} เปลี่ยนเลขนำหน้าสมาชิก`, logFields)
+      embeds.adminActionEmbed("🔢 เปลี่ยนเลขนำหน้า", `แอดมิน <@${interaction.user.id}> เปลี่ยนเลขนำหน้าสมาชิก`, logFields)
     );
 
     if (nicknameResult && !nicknameResult.ok) {

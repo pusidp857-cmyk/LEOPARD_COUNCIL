@@ -77,7 +77,7 @@ module.exports = {
       "คิว",
       embeds.adminActionEmbed(
         "🛠️ กำหนดสถานะคิวแพทย์",
-        `แอดมิน ${interaction.user.tag} กำหนดสถานะของ <@${target.id}> (${qMember.name}) เป็น ${STATUS_LABEL[status]}`
+        `แอดมิน <@${interaction.user.id}> กำหนดสถานะของ <@${target.id}> (${qMember.name}) เป็น ${STATUS_LABEL[status]}`
       )
     );
   },

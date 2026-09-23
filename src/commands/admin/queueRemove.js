@@ -37,7 +37,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "คิว",
-      embeds.adminActionEmbed("➖ นำออกจากคิวแพทย์", `แอดมิน ${interaction.user.tag} นำ <@${target.id}> (${existing.name}) ออกจากคิวแพทย์`)
+      embeds.adminActionEmbed("➖ นำออกจากคิวแพทย์", `แอดมิน <@${interaction.user.id}> นำ <@${target.id}> (${existing.name}) ออกจากคิวแพทย์`)
     );
   },
 };
