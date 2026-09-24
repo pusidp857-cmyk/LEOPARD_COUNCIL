@@ -13,7 +13,7 @@ function memberDisplayName({ gameName }) {
 
 // ---------- Helper: ชื่อเล่นในดิสคอร์ด รูปแบบ "[PD] ชื่อ" (ขึ้น PD คงที่ ไม่ขึ้นชื่อตำแหน่ง) ----------
 function memberNickname({ gameName }) {
-  return `[PD] ${gameName}`;
+  return `[CC] ${gameName}`;
 }
 
 function registerEmbed({ discordName, gameName, position, addedBy }) {
