@@ -62,22 +62,10 @@ async function handleButton(interaction) {
   if (interaction.customId.startsWith("form_apply_")) {
     const department = interaction.customId.slice("form_apply_".length);
 
-    const existingMember = await db.findMember(interaction.user.id);
-    if (existingMember) {
-      return interaction.reply({
-        embeds: [embeds.errorEmbed("คุณเป็นสมาชิกในระบบอยู่แล้ว ไม่จำเป็นต้องสมัครใหม่")],
-        flags: MessageFlags.Ephemeral,
-      });
-    }
-
-    const pending = await db.findPendingApplication(interaction.user.id);
-    if (pending) {
-      return interaction.reply({
-        embeds: [embeds.errorEmbed(`คุณมีใบสมัคร #${pending.id} ที่ยังรอการตรวจสอบอยู่แล้ว`)],
-        flags: MessageFlags.Ephemeral,
-      });
-    }
-
+    // สำคัญ: ต้องเปิด modal (showModal) ทันทีภายใน 3 วินาที ห้าม await คิวรี DB ก่อนหน้านี้
+    // (ก่อนหน้านี้มีการ await db.findMember/db.findPendingApplication 2 ครั้งก่อนเปิด modal
+    // ซึ่งถ้า DB ช้า/เพิ่งปลุกบอทจาก sleep จะทำให้เกิน 3 วิ และ Discord ขึ้น "แอปพลิเคชันไม่ตอบสนอง")
+    // ย้ายการตรวจสอบ "เป็นสมาชิกอยู่แล้ว" / "มีใบสมัครค้างอยู่" ไปเช็คตอน submit modal แทน (handleModalSubmit ด้านล่าง)
     return interaction.showModal(applicationModal(department));
   }
 

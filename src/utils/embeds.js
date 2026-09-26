@@ -101,7 +101,7 @@ function checkInLogEmbed({ discordUser, gameName, position, time }) {
       { name: "ตำแหน่ง", value: position || "-", inline: true },
       { name: "เวลาเข้าเวร", value: time, inline: true }
     )
-    .setFooter({ text: "POLICE DUTY SYSTEM • Duty System" })
+    .setFooter({ text: "COUNCIL DUTY SYSTEM • Duty System" })
     .setTimestamp();
 
   if (discordUser) embed.setThumbnail(discordUser.displayAvatarURL());
@@ -120,7 +120,7 @@ function checkOutLogEmbed({ discordUser, gameName, position, checkIn, checkOut, 
       { name: "เวลาออก", value: checkOut, inline: true },
       { name: "รวมชั่วโมง", value: `${hours} ชม.`, inline: true }
     )
-    .setFooter({ text: "POLICE DUTY SYSTEM • Duty System" })
+    .setFooter({ text: "COUNCIL DUTY SYSTEM • Duty System" })
     .setTimestamp();
 
   if (discordUser) embed.setThumbnail(discordUser.displayAvatarURL());
@@ -173,7 +173,7 @@ function dutyPanelEmbeds(onDutyList = []) {
   const statusEmbed = new EmbedBuilder()
     .setColor(statusColor)
     .setDescription(`${statusDot} **กำลังเข้าเวร (${count} คน)**\n${listText}`)
-    .setFooter({ text: "POLICE DUTY SYSTEM • Duty System" })
+    .setFooter({ text: "COUNCIL DUTY SYSTEM • Duty System" })
     .setTimestamp();
 
   return [headerEmbed, infoEmbed, statusEmbed];
@@ -275,7 +275,7 @@ function plateSubmitPanelEmbeds() {
   const infoEmbed = new EmbedBuilder()
     .setColor(0x5865f2)
     .setDescription("กดปุ่มด้านล่างเพื่อลงทะเบียนป้ายทะเบียนรถคันใหม่ (เลขทะเบียน + ชื่อเจ้าของ/ผู้ขับ)")
-    .setFooter({ text: "POLICE DUTY SYSTEM • Plate Registration" })
+    .setFooter({ text: "COUNCIL DUTY SYSTEM • Plate Registration" })
     .setTimestamp();
 
   return [headerEmbed, infoEmbed];
@@ -333,7 +333,7 @@ function applicationMenuEmbed(departments) {
         .map((d) => `\`${d}\``)
         .join(" ")}`
     )
-    .setFooter({ text: "POLICE DUTY SYSTEM • Application" })
+    .setFooter({ text: "COUNCIL DUTY SYSTEM • Application" })
     .setTimestamp();
 }
 
