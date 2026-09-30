@@ -64,11 +64,7 @@ module.exports = {
     );
 
     // เปลี่ยนชื่อเล่นในดิสคอร์ดให้ตรงกับตำแหน่งใหม่: "[ตำแหน่ง] ชื่อในเกม"
-    const nicknameResult = await setNickname(
-      interaction,
-      discordId,
-      embeds.memberNickname({ position, gameName: existing.gameName })
-    );
+    const nicknameResult = await setNickname(interaction, discordId, `[${position}] ${existing.gameName}`);
 
     const resultLines = [
       `เปลี่ยนตำแหน่งของ ${existing.gameName} (${existing.discordName}) เป็น "${position}" เรียบร้อยแล้ว`,
@@ -106,7 +102,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "แอดมิน",
-      embeds.adminActionEmbed("🎖️ เปลี่ยนตำแหน่ง", `แอดมิน <@${interaction.user.id}> เปลี่ยนตำแหน่งสมาชิก`, logFields)
+      embeds.adminActionEmbed("🎖️ เปลี่ยนตำแหน่ง", `แอดมิน ${interaction.user.tag} เปลี่ยนตำแหน่งสมาชิก`, logFields)
     );
 
     if (roleResult && !roleResult.ok) {

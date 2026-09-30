@@ -47,7 +47,7 @@ module.exports = {
       `เพิ่ม ${amount} ชั่วโมงให้ ${target.tag}`,
       [
         { name: "เหตุผล", value: reason || "-", inline: true },
-        { name: "ดำเนินการโดย", value: `<@${interaction.user.id}>`, inline: true },
+        { name: "ดำเนินการโดย", value: interaction.user.tag, inline: true },
       ]
     );
 

@@ -35,7 +35,7 @@ module.exports = {
     const embed = embeds.adminActionEmbed(
       "🧹 ล้างสถานะเข้าเวร",
       `ล้างสถานะเข้าเวรของ ${target.tag} เรียบร้อย`,
-      [{ name: "ดำเนินการโดย", value: `<@${interaction.user.id}>` }]
+      [{ name: "ดำเนินการโดย", value: interaction.user.tag }]
     );
 
     await interaction.editReply({ embeds: [embed] });

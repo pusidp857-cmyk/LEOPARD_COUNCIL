@@ -53,7 +53,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "แอดมิน",
-      embeds.adminActionEmbed("🗑️ ลบสมาชิก", `แอดมิน <@${interaction.user.id}> ลบสมาชิกออกจากระบบ`, [
+      embeds.adminActionEmbed("🗑️ ลบสมาชิก", `แอดมิน ${interaction.user.tag} ลบสมาชิกออกจากระบบ`, [
         { name: "สมาชิก", value: `${existing.gameName} (${existing.discordName})`, inline: true },
         { name: "ตำแหน่งเดิม", value: existing.position || "-", inline: true },
       ])

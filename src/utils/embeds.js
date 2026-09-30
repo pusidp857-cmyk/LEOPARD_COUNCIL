@@ -1,19 +1,10 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const config = require("../../config.json");
+const time = require("./time");
 
 /** จัดรูปแบบ Steam Hex ที่คำนวณไว้แล้วตอนยื่นใบสมัคร ให้อยู่ในโค้ดบล็อก หรือข้อความแจ้งถ้ายังไม่มีค่า (เช่น ใบสมัครเก่าก่อนมีระบบนี้) */
 function formatSteamHex(steamHex) {
   return steamHex ? `\`${steamHex}\`` : "ไม่พบ (ตรวจสอบลิงก์ Steam อีกครั้ง)";
-}
-
-// ---------- Helper: ชื่อแสดงผลของสมาชิก ----------
-function memberDisplayName({ gameName }) {
-  return gameName;
-}
-
-// ---------- Helper: ชื่อเล่นในดิสคอร์ด รูปแบบ "[PD] ชื่อ" (ขึ้น PD คงที่ ไม่ขึ้นชื่อตำแหน่ง) ----------
-function memberNickname({ gameName }) {
-  return `[CC] ${gameName}`;
 }
 
 function registerEmbed({ discordName, gameName, position, addedBy }) {
@@ -35,14 +26,11 @@ function registerEmbed({ discordName, gameName, position, addedBy }) {
 }
 
 function checkInEmbed({ discordUser, gameName, position, time, via }) {
-  const displayName = memberDisplayName({ gameName });
   const embed = new EmbedBuilder()
     .setColor(0x57f287)
     .setTitle("🟢 เข้าเวร")
     .setDescription(
-      discordUser
-        ? `<@${discordUser.id}> **(${displayName})** ได้เข้าเวรแล้ว ✅`
-        : `**${displayName}** ได้เข้าเวรแล้ว ✅`
+      discordUser ? `<@${discordUser.id}> **(${gameName})** ได้เข้าเวรแล้ว ✅` : `**${gameName}** ได้เข้าเวรแล้ว ✅`
     )
     .addFields(
       { name: "ชื่อ", value: gameName, inline: true },
@@ -62,14 +50,11 @@ function checkInEmbed({ discordUser, gameName, position, time, via }) {
 }
 
 function checkOutEmbed({ discordUser, gameName, position, checkIn, checkOut, hours, via }) {
-  const displayName = memberDisplayName({ gameName });
   const embed = new EmbedBuilder()
     .setColor(0xed4245)
     .setTitle("🔴 ออกเวร")
     .setDescription(
-      discordUser
-        ? `<@${discordUser.id}> **(${displayName})** ได้ออกเวรแล้ว 🏁`
-        : `**${displayName}** ได้ออกเวรแล้ว 🏁`
+      discordUser ? `<@${discordUser.id}> **(${gameName})** ได้ออกเวรแล้ว 🏁` : `**${gameName}** ได้ออกเวรแล้ว 🏁`
     )
     .addFields(
       { name: "ชื่อ", value: gameName, inline: true },
@@ -93,10 +78,9 @@ function checkOutEmbed({ discordUser, gameName, position, checkIn, checkOut, hou
 // ---------- Log แบบเรียบร้อย สำหรับส่งเข้าห้อง log (สไตล์เดียวกับแผงเข้าเวร) ----------
 
 function checkInLogEmbed({ discordUser, gameName, position, time }) {
-  const displayName = memberDisplayName({ gameName });
   const embed = new EmbedBuilder()
     .setColor(0x57f287)
-    .setDescription(`🟢 **${displayName}** เข้าเวรแล้ว${discordUser ? ` — <@${discordUser.id}>` : ""}`)
+    .setDescription(`🟢 **${gameName}** เข้าเวรแล้ว${discordUser ? ` — <@${discordUser.id}>` : ""}`)
     .addFields(
       { name: "ตำแหน่ง", value: position || "-", inline: true },
       { name: "เวลาเข้าเวร", value: time, inline: true }
@@ -110,10 +94,9 @@ function checkInLogEmbed({ discordUser, gameName, position, time }) {
 }
 
 function checkOutLogEmbed({ discordUser, gameName, position, checkIn, checkOut, hours }) {
-  const displayName = memberDisplayName({ gameName });
   const embed = new EmbedBuilder()
     .setColor(0xed4245)
-    .setDescription(`🔴 **${displayName}** ออกเวรแล้ว${discordUser ? ` — <@${discordUser.id}>` : ""}`)
+    .setDescription(`🔴 **${gameName}** ออกเวรแล้ว${discordUser ? ` — <@${discordUser.id}>` : ""}`)
     .addFields(
       { name: "ตำแหน่ง", value: position || "-", inline: true },
       { name: "เวลาเข้า", value: checkIn, inline: true },
@@ -131,7 +114,7 @@ function checkOutLogEmbed({ discordUser, gameName, position, checkIn, checkOut, 
 function hoursEmbed({ gameName, hoursToday, hoursWeek, hoursMonth, dutyCount }) {
   return new EmbedBuilder()
     .setColor(0xfee75c)
-    .setTitle(`⏱️ ชั่วโมงเข้าเวรของ ${memberDisplayName({ gameName })}`)
+    .setTitle(`⏱️ ชั่วโมงเข้าเวรของ ${gameName}`)
     .addFields(
       { name: "วันนี้", value: `${hoursToday} ชม.`, inline: true },
       { name: "สัปดาห์นี้", value: `${hoursWeek} ชม.`, inline: true },
@@ -204,11 +187,10 @@ function rosterEmbeds(members, positions, title, updatedAtText) {
   const others = [];
 
   for (const m of members) {
-    const displayName = memberDisplayName(m);
     if (grouped.has(m.position)) {
-      grouped.get(m.position).push(displayName);
+      grouped.get(m.position).push(m.gameName);
     } else {
-      others.push(displayName);
+      others.push(m.gameName);
     }
   }
 
@@ -265,61 +247,6 @@ function errorEmbed(message) {
 
 function successEmbed(message) {
   return new EmbedBuilder().setColor(0x57f287).setDescription(`✅ ${message}`);
-}
-
-// ---------- ระบบลงทะเบียนป้ายทะเบียนรถ ----------
-
-function plateSubmitPanelEmbeds() {
-  const headerEmbed = new EmbedBuilder().setColor(0x5865f2).setTitle("🚘 ระบบลงทะเบียนป้ายทะเบียนรถ");
-
-  const infoEmbed = new EmbedBuilder()
-    .setColor(0x5865f2)
-    .setDescription("กดปุ่มด้านล่างเพื่อลงทะเบียนป้ายทะเบียนรถคันใหม่ (เลขทะเบียน + ชื่อเจ้าของ/ผู้ขับ)")
-    .setFooter({ text: "COUNCIL DUTY SYSTEM • Plate Registration" })
-    .setTimestamp();
-
-  return [headerEmbed, infoEmbed];
-}
-
-function plateSubmitRow() {
-  return new ActionRowBuilder().addComponents(
-    new ButtonBuilder().setCustomId("plate_register").setLabel("ลงทะเบียนใหม่").setEmoji("🚘").setStyle(ButtonStyle.Primary)
-  );
-}
-
-const PLATE_DIVIDER = "> ══════════════════════";
-const PLATE_CHUNK_LIMIT = 3800;
-
-function plateListEmbeds(plates, updatedAtText) {
-  const header = `# 🚘 ทะเบียนรถที่ลงทะเบียนไว้\n${PLATE_DIVIDER}`;
-  const footer = `${PLATE_DIVIDER}\n> อัปเดตล่าสุด : ${updatedAtText} | จำนวนทั้งหมด ${plates.length} คัน`;
-
-  const lines =
-    plates.length === 0
-      ? ["`ยังไม่มีการลงทะเบียนป้ายทะเบียน`"]
-      : plates.map((p) => `\`${p.plateNumber}\` — เจ้าของ/ผู้ขับ: ${p.ownerName}`);
-
-  const chunks = [];
-  let current = header;
-  for (const line of lines) {
-    const candidate = `${current}\n${line}`;
-    if (candidate.length > PLATE_CHUNK_LIMIT) {
-      chunks.push(current);
-      current = line;
-    } else {
-      current = candidate;
-    }
-  }
-  chunks.push(current);
-
-  const lastIndex = chunks.length - 1;
-  if (chunks[lastIndex].length + footer.length + 1 <= PLATE_CHUNK_LIMIT) {
-    chunks[lastIndex] += `\n${footer}`;
-  } else {
-    chunks.push(footer);
-  }
-
-  return chunks.slice(0, 10).map((desc) => new EmbedBuilder().setColor(0x5865f2).setDescription(desc));
 }
 
 // ---------- ระบบใบสมัคร (สมัครเข้าหน่วยงานผ่านปุ่ม + ห้องผู้อนุมัติ) ----------
@@ -400,7 +327,12 @@ function applicationResultEmbed(app, guildId) {
 
   let description;
   if (approved) {
-    description = `ยินดีต้อนรับเข้าสู่หน่วยงาน **${app.department}**!`;
+    description = `ยินดีต้อนรับเข้าสู่หน่วยงาน **${app.department}**! ตอนนี้คุณสามารถใช้คำสั่ง \`/เข้าเวร\` ได้แล้ว`;
+
+    const channelId = config.dutyChannelId;
+    if (guildId && channelId && !channelId.startsWith("ใส่_")) {
+      description += `\n\nให้ไปเข้าเวรในห้องนี้ด้วยนะจ๊ะ 🟢\nhttps://discord.com/channels/${guildId}/${channelId}`;
+    }
   } else {
     description = `ใบสมัครเข้าหน่วยงาน **${app.department}** ของคุณถูกปฏิเสธ ติดต่อแอดมินหากมีข้อสงสัย`;
   }
@@ -414,8 +346,6 @@ function applicationResultEmbed(app, guildId) {
 }
 
 module.exports = {
-  memberDisplayName,
-  memberNickname,
   registerEmbed,
   checkInEmbed,
   checkOutEmbed,
@@ -428,9 +358,6 @@ module.exports = {
   dutyPanelEmbeds,
   dutyPanelRow,
   rosterEmbeds,
-  plateSubmitPanelEmbeds,
-  plateSubmitRow,
-  plateListEmbeds,
   applicationMenuEmbed,
   applicationMenuRow,
   applicationReviewEmbed,

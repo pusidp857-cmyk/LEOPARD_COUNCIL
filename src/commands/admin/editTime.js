@@ -78,7 +78,7 @@ module.exports = {
           value: newCheckOut ? time.displayDateTime(newCheckOut) : "ไม่เปลี่ยนแปลง",
           inline: true,
         },
-        { name: "ดำเนินการโดย", value: `<@${interaction.user.id}>` },
+        { name: "ดำเนินการโดย", value: interaction.user.tag },
       ]
     );
 

@@ -88,6 +88,7 @@ async function checkOut(discordUser) {
     hours,
   });
 
+
   return { ok: true, replyEmbed, logEmbed };
 }
 

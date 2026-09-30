@@ -63,11 +63,11 @@ module.exports = {
     await db.updateMemberName(discordId, newName);
     await roster.refreshRoster(interaction.client);
 
-    // เปลี่ยนชื่อเล่นในดิสคอร์ดให้ตรงกับชื่อใหม่
+    // เปลี่ยนชื่อเล่นในดิสคอร์ดให้ตรงกับชื่อใหม่: "[ตำแหน่ง] ชื่อในเกม"
     const nicknameResult = await setNickname(
       interaction,
       discordId,
-      embeds.memberNickname({ position: existing.position, gameName: newName })
+      `[${existing.position}] ${newName}`
     );
 
     const resultLines = [
@@ -93,7 +93,7 @@ module.exports = {
     await sendLog(
       interaction.client,
       "แอดมิน",
-      embeds.adminActionEmbed("✏️ เปลี่ยนชื่อ", `แอดมิน <@${interaction.user.id}> เปลี่ยนชื่อสมาชิก`, logFields)
+      embeds.adminActionEmbed("✏️ เปลี่ยนชื่อ", `แอดมิน ${interaction.user.tag} เปลี่ยนชื่อสมาชิก`, logFields)
     );
 
     if (nicknameResult && !nicknameResult.ok) {

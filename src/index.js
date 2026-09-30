@@ -8,7 +8,6 @@ const panel = require("./utils/panel");
 const applicationPanel = require("./utils/applicationPanel");
 const { sendLog } = require("./utils/permissions");
 const adminPanelHandler = require("./handlers/adminPanelHandler");
-const plateHandler = require("./handlers/plateHandler");
 const applicationHandler = require("./handlers/applicationHandler");
 
 const client = new Client({
@@ -104,16 +103,6 @@ client.on("interactionCreate", async (interaction) => {
       return;
     }
 
-    if (interaction.customId.startsWith("plate_")) {
-      try {
-        await plateHandler.handleButton(interaction);
-      } catch (err) {
-        console.error(`เกิดข้อผิดพลาดในระบบป้ายทะเบียน (ปุ่ม ${interaction.customId}):`, err);
-        await safeErrorReply(interaction);
-      }
-      return;
-    }
-
     if (interaction.customId.startsWith("form_")) {
       try {
         await applicationHandler.handleButton(interaction);
@@ -121,7 +110,9 @@ client.on("interactionCreate", async (interaction) => {
         console.error(`เกิดข้อผิดพลาดในระบบใบสมัคร (ปุ่ม ${interaction.customId}):`, err);
         await safeErrorReply(interaction);
       }
+      return;
     }
+
     return;
   }
 
@@ -155,16 +146,6 @@ client.on("interactionCreate", async (interaction) => {
     return;
   }
 
-  if (interaction.isModalSubmit() && interaction.customId.startsWith("plate_modal_")) {
-    try {
-      await plateHandler.handleModalSubmit(interaction);
-    } catch (err) {
-      console.error(`เกิดข้อผิดพลาดในระบบป้ายทะเบียน (modal ${interaction.customId}):`, err);
-      await safeErrorReply(interaction);
-    }
-    return;
-  }
-
   if (interaction.isModalSubmit() && interaction.customId.startsWith("form_modal_")) {
     try {
       await applicationHandler.handleModalSubmit(interaction);
@@ -174,6 +155,7 @@ client.on("interactionCreate", async (interaction) => {
     }
     return;
   }
+
 });
 
 async function safeErrorReply(interaction) {
@@ -216,8 +198,6 @@ function pingSelf() {
     });
 }
 
-// ปิงทันทีตอนเริ่มรัน ไม่ต้องรอครบรอบ 4 นาทีแรก (กันช่วงเสี่ยงหลัง deploy/restart ที่ยังไม่มีการปิงเลย)
-pingSelf();
 setInterval(pingSelf, SELF_PING_INTERVAL_MS);
 // ==================================================================
 
